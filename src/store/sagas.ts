@@ -1,7 +1,7 @@
 import { all, takeEvery, call, put } from "redux-saga/effects";
 import { TodosAction } from "../types";
 import { db } from "../firebase/index";
-import { ADD_TODO } from "../consts";
+import { ADD_TODO, GET_TODOS , ADD_TODO_TO_FIREBASE} from "../consts";
 
 export default function* rootSaga() {
   yield all([fetchTodos(), toggleCompleted(), addTodo()]);
@@ -43,14 +43,22 @@ function* toggleCompletedAsync(action: any) {
 }
 
 function* addTodo() {
-  yield takeEvery(ADD_TODO, addTodoAsync);
+  yield takeEvery(ADD_TODO_TO_FIREBASE, addTodoAsync);
 }
 
 function* addTodoAsync(action: any) {
-  console.log(1324);
   try {
-    yield call(async () => {
-      await db.collection("Todos").add(action.payload);
+    const todoId = yield call(async () => {
+      const snapshot = await db.collection("Todos").add(action.payload);
+      return await snapshot.id;
+    });
+
+    yield put({
+      type: ADD_TODO,
+      payload: {
+        ...action.payload,
+        id: todoId,
+      },
     });
   } catch {}
 }

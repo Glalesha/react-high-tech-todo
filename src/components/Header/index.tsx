@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import addTodo from "../../store/actions/addTodo";
+import addTodoToFirebase from "../../store/actions/addTodoToFirebase";
 
 interface Props {
   addTodo: any;
@@ -12,7 +12,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addTodo: (todo: any) => dispatch(addTodo(todo)),
+    addTodo: (todo: any) => dispatch(addTodoToFirebase(todo)),
   };
 };
 

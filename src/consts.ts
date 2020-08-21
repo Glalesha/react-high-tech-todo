@@ -13,3 +13,5 @@ export const ALL = "All";
 export const ACTIVE = "ACTIVE";
 
 export const COMPLETED = "COMPLETED";
+
+export const ADD_TODO_TO_FIREBASE = "ADD_TODO_TO_FIREBASE";
