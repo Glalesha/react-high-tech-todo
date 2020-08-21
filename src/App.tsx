@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import store from "./store/store";
+import Main from "./components/main";
+import "todomvc-common/base.css";
+import "todomvc-app-css/index.css";
 
-function App() {
+const App: React.FC<any> = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Main />
+      </BrowserRouter>
+    </Provider>
   );
-}
+};
 
 export default App;
