@@ -1,5 +1,11 @@
 import { Todo } from "../../types";
-import { GET_TODOS, TOGGLE_COMPLETED, SET_FILTER, ALL } from "../../consts";
+import {
+  GET_TODOS,
+  TOGGLE_COMPLETED,
+  SET_FILTER,
+  ALL,
+  ADD_TODO,
+} from "../../consts";
 import { State } from "../../types";
 
 const initState: State = {
@@ -42,6 +48,12 @@ export default function rootReducer(state = initState, action: any) {
             })
           ),
         },
+      };
+
+    case ADD_TODO:
+      return {
+        ...state,
+        todos: [...state.todos, action.payload],
       };
     default:
       return state;
