@@ -5,6 +5,8 @@ import {
   SET_FILTER,
   ALL,
   ADD_TODO,
+  DELETE_TODO,
+  TOGGLE_ALL,
 } from "../../consts";
 import { State } from "../../types";
 
@@ -55,6 +57,28 @@ export default function rootReducer(state = initState, action: any) {
         ...state,
         todos: [...state.todos, action.payload],
       };
+
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => {
+          return todo.id !== action.payload;
+        }),
+      };
+
+    case TOGGLE_ALL:
+      console.log(
+        state.todos.map((item) => {
+          return !item.completed;
+        })
+      );
+      return {
+        ...state,
+        todos: state.todos.map((item) => {
+          return { ...item, completed: !!action.payload };
+        }),
+      };
+
     default:
       return state;
   }

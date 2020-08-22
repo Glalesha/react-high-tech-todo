@@ -4,9 +4,12 @@ import fetchTodos from "../../store/actions/fetchTodos";
 import VisibleTodos from "../VisibleTodos/index";
 import Header from "../Header/index";
 import Footer from "../Footer/index";
+import { Todo } from "../../types";
+import toggleAll from "../../store/actions/toggleAll";
 
 interface Props {
   fetchTodos: () => {};
+  toggleAll: any;
 }
 
 const mapStateToProps = (state: any) => {
@@ -18,19 +21,38 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchTodos: () => dispatch(fetchTodos()),
+    toggleAll: (activeTodoCount: number) =>
+      dispatch(toggleAll(activeTodoCount)),
   };
 };
 
-const TodoMain: React.FC<any> = ({ todos, fetchTodos }) => {
+const TodoMain: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
   useEffect(() => {
     fetchTodos();
   }, []);
+
+  const activeTodoCount = todos.filter((todo: Todo) => !todo.completed).length;
+  console.log(activeTodoCount);
 
   return (
     <div>
       <main className="todoapp">
         <Header todos={todos} />
         <section className="main">
+          {todos.length ? (
+            <div>
+              <input
+                className="toggle-all"
+                type="checkbox"
+                onChange={() => {}}
+                checked={!activeTodoCount}
+              ></input>
+              <label
+                htmlFor="toggle-all"
+                onClick={() => toggleAll(activeTodoCount)}
+              ></label>
+            </div>
+          ) : null}
           <VisibleTodos todos={todos} />
         </section>
         <Footer />

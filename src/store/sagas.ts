@@ -1,10 +1,16 @@
 import { all, takeEvery, call, put } from "redux-saga/effects";
 import { TodosAction } from "../types";
 import { db } from "../firebase/index";
-import { GET_TODOS, ADD_TODO } from "../consts";
+import { GET_TODOS, ADD_TODO, DELETE_TODO, TOGGLE_ALL } from "../consts";
 
 export default function* rootSaga() {
-  yield all([fetchTodos(), toggleCompleted(), addTodo()]);
+  yield all([
+    fetchTodos(),
+    toggleCompleted(),
+    addTodo(),
+    deleteTodo(),
+    toggleAll(),
+  ]);
 }
 
 function* fetchTodos() {
@@ -21,7 +27,7 @@ function* fetchTodosAsync(action: any) {
         }
       );
     });
-    yield put({ type: "GET_TODOS", payload: todos });
+    yield put({ type: GET_TODOS, payload: todos });
   } catch {}
 }
 
@@ -50,4 +56,38 @@ function* addTodoAsync(action: any) {
       return snapshot.id;
     });
   } catch {}
+}
+
+function* deleteTodo() {
+  yield takeEvery(DELETE_TODO, deleteTodoAsync);
+}
+
+function* deleteTodoAsync(action: any) {
+  try {
+    yield call(async () => {
+      const snapshot = await db
+        .collection("Todos")
+        .where("id", "==", action.payload)
+        .get();
+      snapshot.docs.forEach((item) => {
+        item.ref.delete();
+      });
+    });
+  } catch {}
+}
+
+function* toggleAll() {
+  yield takeEvery(TOGGLE_ALL, toggleAllAsync);
+}
+
+function* toggleAllAsync(action: any) {
+  console.log(123);
+  yield call(async () => {
+    const snapshot = await db.collection("Todos").get();
+    snapshot.docs.forEach((item: any) => {
+      item.ref.update({
+        completed: !!action.payload,
+      });
+    });
+  });
 }

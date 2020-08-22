@@ -2,21 +2,22 @@ import React from "react";
 import { Todo as TodoType } from "../../types";
 import { connect } from "react-redux";
 import toggleCompleted from "../../store/actions/toggleCompleted";
+import deleteTodo from "../../store/actions/deleteTodo";
 
 interface Props {
   todo: TodoType;
   toggleCompleted: any;
+  deleteTodo: any;
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     toggleCompleted: (todo: TodoType) => dispatch(toggleCompleted(todo)),
+    deleteTodo: (id: number) => dispatch(deleteTodo(id)),
   };
 };
 
-const deleteTodo = () => {};
-
-const Todo: React.FC<Props> = ({ todo, toggleCompleted }) => {
+const Todo: React.FC<Props> = ({ todo, toggleCompleted, deleteTodo }) => {
   return (
     <li className={todo.completed ? "completed" : ""}>
       <div className="view">
@@ -27,7 +28,10 @@ const Todo: React.FC<Props> = ({ todo, toggleCompleted }) => {
           checked={todo.completed}
         ></input>
         <label htmlFor="toggle">{todo.title}</label>
-        <button className="destroy" onClick={() => deleteTodo()}></button>
+        <button
+          className="destroy"
+          onClick={() => deleteTodo(todo.id)}
+        ></button>
       </div>
     </li>
   );

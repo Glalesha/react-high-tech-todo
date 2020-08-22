@@ -15,3 +15,7 @@ export const ACTIVE = "ACTIVE";
 export const COMPLETED = "COMPLETED";
 
 export const ADD_TODO_TO_FIREBASE = "ADD_TODO_TO_FIREBASE";
+
+export const DELETE_TODO = "DELETE_TODO";
+
+export const TOGGLE_ALL = "TOGGLE_ALL";
