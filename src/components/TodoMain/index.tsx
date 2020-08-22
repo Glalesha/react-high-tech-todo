@@ -6,6 +6,7 @@ import Header from "../Header/index";
 import Footer from "../Footer/index";
 import { Todo } from "../../types";
 import toggleAll from "../../store/actions/toggleAll";
+import { act } from "react-dom/test-utils";
 
 interface Props {
   fetchTodos: () => {};
@@ -55,7 +56,7 @@ const TodoMain: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
           ) : null}
           <VisibleTodos todos={todos} />
         </section>
-        <Footer />
+        <Footer activeTodoCount={activeTodoCount} />
       </main>
     </div>
   );
