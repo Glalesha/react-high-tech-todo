@@ -1,9 +1,11 @@
 import { SET_FILTER } from "../../consts";
 
-const setFilter = (payload: any) => {
+const setFilter = (filter: string) => {
   return {
     type: SET_FILTER,
-    payload: payload,
+    payload: {
+      filter,
+    },
   };
 };
 

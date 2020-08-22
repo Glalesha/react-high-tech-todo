@@ -1,9 +1,11 @@
 import { DELETE_TODO } from "../../consts";
 
-const deleteTodo = (payload: any) => {
+const deleteTodo = (id: number) => {
   return {
     type: DELETE_TODO,
-    payload,
+    payload: {
+      id,
+    },
   };
 };
 

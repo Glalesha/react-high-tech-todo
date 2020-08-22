@@ -4,12 +4,13 @@ import fetchTodos from "../../store/actions/fetchTodos";
 import VisibleTodos from "../VisibleTodos/index";
 import Header from "../Header/index";
 import Footer from "../Footer/index";
-import { Todo } from "../../types";
+import { Todo, Todos } from "../../types";
 import toggleAll from "../../store/actions/toggleAll";
 
 interface Props {
-  fetchTodos: () => {};
-  toggleAll: any;
+  fetchTodos(): void;
+  toggleAll(activeTodoCount: number): void;
+  todos: Todos;
 }
 
 const mapStateToProps = (state: any) => {
@@ -26,7 +27,7 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-const Main: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
+const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
   useEffect(() => {
     fetchTodos();
   }, []);

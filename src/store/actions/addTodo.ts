@@ -1,9 +1,12 @@
 import { ADD_TODO } from "../../consts";
+import { Todo } from "../../types/index";
 
-const addTodo = (payload: any) => {
+const addTodo = (todo: Todo) => {
   return {
     type: ADD_TODO,
-    payload,
+    payload: {
+      todo,
+    },
   };
 };
 

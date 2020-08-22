@@ -11,14 +11,31 @@ export interface Filters {
   completed: boolean;
 }
 
-export interface TodosAction {
-  payload: {
-    todos: Todos;
-    completed?: boolean | undefined;
-  };
-}
-
 export interface State {
   todos: Todos;
   filters: Filters;
+}
+
+export interface ActionWithTodo {
+  payload: {
+    todo: Todo;
+  };
+
+  type: string;
+}
+
+export interface ActionWithId {
+  payload: {
+    id: number;
+  };
+
+  type: string;
+}
+
+export interface ActionWithActiveTodoCount {
+  payload: {
+    activeTodoCount: number;
+  };
+
+  type: string;
 }

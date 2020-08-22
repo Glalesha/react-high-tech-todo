@@ -1,7 +1,11 @@
-const toggleCompleted = (payload: any) => {
+import { Todo } from "../../types/index";
+
+const toggleCompleted = (todo: Todo) => {
   return {
     type: "TOGGLE_COMPLETED",
-    payload,
+    payload: {
+      todo,
+    },
   };
 };
 

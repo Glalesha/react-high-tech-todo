@@ -25,14 +25,14 @@ export default function rootReducer(state = initState, action: any) {
     case GET_TODOS:
       return {
         ...state,
-        todos: action.payload,
+        todos: action.payload.todos,
       };
 
     case TOGGLE_COMPLETED:
       return {
         ...state,
         todos: state.todos.map((todo: Todo) => {
-          return todo.id === action.payload.id
+          return todo.id === action.payload.todo.id
             ? { ...todo, completed: !todo.completed }
             : todo;
         }),
@@ -45,7 +45,7 @@ export default function rootReducer(state = initState, action: any) {
           ...state.filters,
           ...Object.fromEntries(
             Object.entries(state.filters).map(([filter, isActive]) => {
-              return action.payload === filter
+              return action.payload.filter === filter
                 ? [filter, true]
                 : [filter, false];
             })
@@ -56,27 +56,22 @@ export default function rootReducer(state = initState, action: any) {
     case ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, action.payload],
+        todos: [...state.todos, action.payload.todo],
       };
 
     case DELETE_TODO:
       return {
         ...state,
         todos: state.todos.filter((todo) => {
-          return todo.id !== action.payload;
+          return todo.id !== action.payload.id;
         }),
       };
 
     case TOGGLE_ALL:
-      console.log(
-        state.todos.map((item) => {
-          return !item.completed;
-        })
-      );
       return {
         ...state,
         todos: state.todos.map((item) => {
-          return { ...item, completed: !!action.payload };
+          return { ...item, completed: !!action.payload.activeTodoCount };
         }),
       };
 

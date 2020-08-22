@@ -1,8 +1,21 @@
 import { all, takeEvery, call, put } from "redux-saga/effects";
-import { TodosAction } from "../types";
-import { db } from "../firebase/index";
 import {
+  ActionWithId,
+  ActionWithTodo,
+  ActionWithActiveTodoCount,
+} from "../types";
+import {
+  getTodosDB,
+  toggleCompletedDB,
+  addTodoDB,
+  deleteTodoDB,
+  toggleAllDB,
+  clearCompletedDB,
+} from "../api/index";
+import {
+  FETCH_TODOS,
   GET_TODOS,
+  TOGGLE_COMPLETED,
   ADD_TODO,
   DELETE_TODO,
   TOGGLE_ALL,
@@ -21,34 +34,23 @@ export default function* rootSaga() {
 }
 
 function* fetchTodos() {
-  yield takeEvery("FETCH_TODOS", fetchTodosAsync);
+  yield takeEvery(FETCH_TODOS, fetchTodosAsync);
 }
 
-function* fetchTodosAsync(action: any) {
+function* fetchTodosAsync() {
   try {
-    const todos = yield call(async () => {
-      const snapshot = await db.collection("Todos").get();
-      return snapshot.docs.map(
-        (item: { data(): void | object; id: string }) => {
-          return item.data();
-        }
-      );
-    });
-    yield put({ type: GET_TODOS, payload: todos });
+    const todos = yield call(() => getTodosDB());
+    yield put({ type: GET_TODOS, payload: { todos } });
   } catch {}
 }
 
 function* toggleCompleted() {
-  yield takeEvery("TOGGLE_COMPLETED", toggleCompletedAsync);
+  yield takeEvery(TOGGLE_COMPLETED, toggleCompletedAsync);
 }
 
-function* toggleCompletedAsync(action: any) {
+function* toggleCompletedAsync(action: ActionWithTodo) {
   try {
-    yield call(async () => {
-      await db.collection("Todos").doc(action.payload).update({
-        completed: !action.payload.completed,
-      });
-    });
+    yield call(() => toggleCompletedDB(action.payload.todo));
   } catch {}
 }
 
@@ -56,12 +58,9 @@ function* addTodo() {
   yield takeEvery(ADD_TODO, addTodoAsync);
 }
 
-function* addTodoAsync(action: any) {
+function* addTodoAsync(action: ActionWithTodo) {
   try {
-    const todoId = yield call(async () => {
-      const snapshot = await db.collection("Todos").add(action.payload);
-      return snapshot.id;
-    });
+    yield call(() => addTodoDB(action.payload.todo));
   } catch {}
 }
 
@@ -69,17 +68,9 @@ function* deleteTodo() {
   yield takeEvery(DELETE_TODO, deleteTodoAsync);
 }
 
-function* deleteTodoAsync(action: any) {
+function* deleteTodoAsync(action: ActionWithId) {
   try {
-    yield call(async () => {
-      const snapshot = await db
-        .collection("Todos")
-        .where("id", "==", action.payload)
-        .get();
-      snapshot.docs.forEach((item) => {
-        item.ref.delete();
-      });
-    });
+    yield call(() => deleteTodoDB(action.payload.id));
   } catch {}
 }
 
@@ -87,28 +78,14 @@ function* toggleAll() {
   yield takeEvery(TOGGLE_ALL, toggleAllAsync);
 }
 
-function* toggleAllAsync(action: any) {
-  yield call(async () => {
-    const snapshot = await db.collection("Todos").get();
-    snapshot.docs.forEach((item: any) => {
-      item.ref.update({
-        completed: !!action.payload,
-      });
-    });
-  });
+function* toggleAllAsync(action: ActionWithActiveTodoCount) {
+  yield call(() => toggleAllDB(action.payload.activeTodoCount));
 }
 
 function* clearCompleted() {
   yield takeEvery(CLEAR_COMPLETED, clearCompletedAsync);
 }
 
-function* clearCompletedAsync(action: any) {
-  yield call(async () => {
-    const snapshot = await db.collection("Todos").get();
-    snapshot.docs.forEach((item: any) => {
-      if (item.data().completed) {
-        item.ref.delete();
-      }
-    });
-  });
+function* clearCompletedAsync() {
+  yield call(() => clearCompletedDB());
 }

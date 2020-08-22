@@ -1,9 +1,11 @@
 import { TOGGLE_ALL } from "../../consts";
 
-const toggleAll = (payload: any) => {
+const toggleAll = (activeTodoCount: number) => {
   return {
     type: TOGGLE_ALL,
-    payload,
+    payload: {
+      activeTodoCount,
+    },
   };
 };
 
