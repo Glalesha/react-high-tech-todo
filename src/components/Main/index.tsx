@@ -6,7 +6,6 @@ import Header from "../Header/index";
 import Footer from "../Footer/index";
 import { Todo } from "../../types";
 import toggleAll from "../../store/actions/toggleAll";
-import { act } from "react-dom/test-utils";
 
 interface Props {
   fetchTodos: () => {};
@@ -27,7 +26,7 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-const TodoMain: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
+const Main: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -62,4 +61,4 @@ const TodoMain: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoMain);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
