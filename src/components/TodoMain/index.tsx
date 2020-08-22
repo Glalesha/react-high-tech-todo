@@ -29,7 +29,7 @@ const TodoMain: React.FC<any> = ({ todos, fetchTodos }) => {
   return (
     <div>
       <main className="todoapp">
-        <Header />
+        <Header todos={todos} />
         <section className="main">
           <VisibleTodos todos={todos} />
         </section>

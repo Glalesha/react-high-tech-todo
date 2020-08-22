@@ -35,11 +35,7 @@ const VisibleTodos: React.FC<Props> = ({ todos, filters }) => {
   return (
     <ul className="todo-list">
       {visibleTodos.map((todo) => {
-        return (
-          <li key={todo.id}>
-            <Todo todo={todo} />
-          </li>
-        );
+        return <Todo todo={todo} key={todo.id} />;
       })}
     </ul>
   );

@@ -14,18 +14,22 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
+const deleteTodo = () => {};
+
 const Todo: React.FC<Props> = ({ todo, toggleCompleted }) => {
   return (
-    <div className="view">
-      <input
-        className="toggle"
-        type="checkbox"
-        onChange={() => toggleCompleted(todo)}
-        checked={todo.completed}
-      ></input>
-      <label htmlFor="toggle">{todo.title}</label>
-      <button className="destroy"></button>
-    </div>
+    <li className={todo.completed ? "completed" : ""}>
+      <div className="view">
+        <input
+          className="toggle"
+          type="checkbox"
+          onChange={() => toggleCompleted(todo)}
+          checked={todo.completed}
+        ></input>
+        <label htmlFor="toggle">{todo.title}</label>
+        <button className="destroy" onClick={() => deleteTodo()}></button>
+      </div>
+    </li>
   );
 };
 

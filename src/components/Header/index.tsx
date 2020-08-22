@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import addTodoToFirebase from "../../store/actions/addTodoToFirebase";
+import { Todos } from "../../types";
+import addTodo from "../../store/actions/addTodo";
+import { getNewId } from "../../utils/utils";
 
 interface Props {
   addTodo: any;
+  todos: Todos;
 }
 
 const mapStateToProps = (state: any) => {
@@ -12,16 +15,22 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addTodo: (todo: any) => dispatch(addTodoToFirebase(todo)),
+    addTodo: (todo: any) => dispatch(addTodo(todo)),
   };
 };
 
-const Header: React.FC<Props> = ({ addTodo }) => {
+const Header: React.FC<Props> = ({ addTodo, todos }) => {
   const [todoValue, setTodoValue]: [string, any] = useState("");
 
   const handleKeyPress = (e: any) => {
     if (e.key === "Enter" && todoValue) {
-      addTodo({ title: todoValue, completed: false });
+      const newTodo = {
+        title: todoValue,
+        completed: false,
+        id: getNewId(todos),
+      };
+
+      addTodo(newTodo);
       setTodoValue("");
     }
   };
