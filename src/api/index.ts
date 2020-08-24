@@ -55,3 +55,15 @@ export const clearCompletedDB = async () => {
     }
   );
 };
+
+export const changeTodoDB = async (todo: Todo) => {
+  const snapshot = await db
+    .collection("Todos")
+    .where("id", "==", todo.id)
+    .get();
+  snapshot.docs.forEach((doc: any) => {
+    doc.ref.update({
+      title: todo.title,
+    });
+  });
+};

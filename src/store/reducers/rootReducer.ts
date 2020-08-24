@@ -8,6 +8,7 @@ import {
   DELETE_TODO,
   TOGGLE_ALL,
   CLEAR_COMPLETED,
+  CHANGE_TODO,
 } from "../../consts";
 import { State } from "../../types";
 
@@ -79,6 +80,16 @@ export default function rootReducer(state = initState, action: any) {
       return {
         ...state,
         todos: state.todos.filter((item) => !item.completed),
+      };
+
+    case CHANGE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
+          return todo.id === action.payload.todo.id
+            ? action.payload.todo
+            : todo;
+        }),
       };
 
     default:

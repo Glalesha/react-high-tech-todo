@@ -33,7 +33,6 @@ const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
   }, []);
 
   const activeTodoCount = todos.filter((todo: Todo) => !todo.completed).length;
-  console.log(activeTodoCount);
 
   return (
     <div>

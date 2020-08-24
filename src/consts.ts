@@ -21,3 +21,5 @@ export const DELETE_TODO = "DELETE_TODO";
 export const TOGGLE_ALL = "TOGGLE_ALL";
 
 export const CLEAR_COMPLETED = "CLEAR_COMPLETED";
+
+export const CHANGE_TODO = "CHANGE_TODO";

@@ -11,6 +11,7 @@ import {
   deleteTodoDB,
   toggleAllDB,
   clearCompletedDB,
+  changeTodoDB,
 } from "../api/index";
 import {
   FETCH_TODOS,
@@ -20,6 +21,7 @@ import {
   DELETE_TODO,
   TOGGLE_ALL,
   CLEAR_COMPLETED,
+  CHANGE_TODO,
 } from "../consts";
 
 export default function* rootSaga() {
@@ -30,6 +32,7 @@ export default function* rootSaga() {
     deleteTodo(),
     toggleAll(),
     clearCompleted(),
+    changeTodo(),
   ]);
 }
 
@@ -88,4 +91,12 @@ function* clearCompleted() {
 
 function* clearCompletedAsync() {
   yield call(() => clearCompletedDB());
+}
+
+function* changeTodo() {
+  yield takeEvery(CHANGE_TODO, changeTodoAsync);
+}
+
+function* changeTodoAsync(action: ActionWithTodo) {
+  yield call(() => changeTodoDB(action.payload.todo));
 }
