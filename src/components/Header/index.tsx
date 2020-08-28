@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import { Todos } from "../../types";
 import addTodo from "../../store/actions/addTodo";
 import { getNewId } from "../../utils/utils";
@@ -8,16 +9,6 @@ interface Props {
   addTodo: any;
   todos: Todos;
 }
-
-const mapStateToProps = (state: any) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    addTodo: (todo: any) => dispatch(addTodo(todo)),
-  };
-};
 
 const Header: React.FC<Props> = ({ addTodo, todos }) => {
   const [todoValue, setTodoValue]: [string, any] = useState("");
@@ -42,7 +33,7 @@ const Header: React.FC<Props> = ({ addTodo, todos }) => {
         className="new-todo"
         type="text"
         placeholder="What needs to be done?"
-        onChange={(e) => setTodoValue(e.currentTarget.value)}
+        onChange={(e) => setTodoValue(e.target.value)}
         value={todoValue}
         onKeyPress={handleKeyPress}
       ></input>
@@ -50,4 +41,4 @@ const Header: React.FC<Props> = ({ addTodo, todos }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(null, { addTodo })(Header);

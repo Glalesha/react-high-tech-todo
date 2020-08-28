@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Todo } from "../../types/index";
 import changeTodo from "../../store/actions/changeTodo";
@@ -9,12 +10,6 @@ interface Props {
   todo: Todo;
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    changeTodo: (todo: Todo) => dispatch(changeTodo(todo)),
-  };
-};
-
 const EditTodo: React.FC<Props> = ({ resetLiClassName, todo, changeTodo }) => {
   const [todoValue, setTodoValue] = useState(todo.title);
 
@@ -23,11 +18,13 @@ const EditTodo: React.FC<Props> = ({ resetLiClassName, todo, changeTodo }) => {
   };
 
   const handleChange = (e: any) => {
-    setTodoValue(e.currentTarget.value);
+    setTodoValue(e.target.value);
+    console.log(todoValue);
   };
 
   const handleKeyPress = (e: any) => {
     if (e.key === "Enter") {
+      console.log(todoValue);
       onBlur();
     }
   };
@@ -49,4 +46,4 @@ const EditTodo: React.FC<Props> = ({ resetLiClassName, todo, changeTodo }) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(EditTodo);
+export default connect(null, { changeTodo })(EditTodo);

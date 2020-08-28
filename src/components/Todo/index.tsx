@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Todo as TodoType } from "../../types";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import classNames from "classnames";
 import EditTodo from "../EditTodo/index";
 import toggleCompleted from "../../store/actions/toggleCompleted";
@@ -11,13 +12,6 @@ interface Props {
   toggleCompleted(todo: TodoType): void;
   deleteTodo(id: number): void;
 }
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    toggleCompleted: (todo: TodoType) => dispatch(toggleCompleted(todo)),
-    deleteTodo: (id: number) => dispatch(deleteTodo(id)),
-  };
-};
 
 const Todo: React.FC<Props> = ({ todo, toggleCompleted, deleteTodo }) => {
   const handleDoubleClick = () => {
@@ -61,4 +55,4 @@ const Todo: React.FC<Props> = ({ todo, toggleCompleted, deleteTodo }) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(Todo);
+export default connect(null, { toggleCompleted, deleteTodo })(Todo);

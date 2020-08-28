@@ -1,25 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ALL, ACTIVE, COMPLETED } from "../../consts";
-import { all } from "redux-saga/effects";
+import { Dispatch } from "redux";
 import Filters from "../Filters/index";
-import { act } from "react-dom/test-utils";
 import clearCompleted from "../../store/actions/clearCompleted";
 
 interface Props {
   activeTodoCount: number;
   clearCompleted: any;
 }
-
-const mapStateToProps = (state: any) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    clearCompleted: () => dispatch(clearCompleted()),
-  };
-};
 
 const Footer: React.FC<Props> = ({ activeTodoCount, clearCompleted }) => {
   return (
@@ -36,4 +24,4 @@ const Footer: React.FC<Props> = ({ activeTodoCount, clearCompleted }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(null, { clearCompleted })(Footer);

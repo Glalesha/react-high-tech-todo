@@ -8,12 +8,6 @@ interface Props {
   filters: any;
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    filters: state.filters,
-  };
-};
-
 const VisibleTodos: React.FC<Props> = ({ todos, filters }) => {
   const selectedFilter: any = Object.entries(filters).find(
     ([filter, isActive]) => {
@@ -41,4 +35,8 @@ const VisibleTodos: React.FC<Props> = ({ todos, filters }) => {
   );
 };
 
-export default connect(mapStateToProps)(VisibleTodos);
+export default connect((state: any) => {
+  return {
+    filters: state.filters,
+  };
+})(VisibleTodos);

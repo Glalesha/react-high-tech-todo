@@ -13,20 +13,6 @@ interface Props {
   todos: Todos;
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    todos: state.todos,
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    fetchTodos: () => dispatch(fetchTodos()),
-    toggleAll: (activeTodoCount: number) =>
-      dispatch(toggleAll(activeTodoCount)),
-  };
-};
-
 const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
   useEffect(() => {
     fetchTodos();
@@ -61,4 +47,11 @@ const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  (state: any) => {
+    return {
+      todos: state.todos,
+    };
+  },
+  { fetchTodos, toggleAll }
+)(Main);
