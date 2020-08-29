@@ -1,4 +1,4 @@
-import { db } from "../firebase/index";
+import { db } from "../firebase";
 import { Todo } from "../types/index";
 
 export const getTodosDB = async () => {
