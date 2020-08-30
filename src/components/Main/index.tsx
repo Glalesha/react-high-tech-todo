@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import fetchTodos from "../../store/actions/fetchTodos";
 import VisibleTodos from "../VisibleTodos/index";
@@ -6,17 +6,21 @@ import Header from "../Header/index";
 import Footer from "../Footer/index";
 import { Todo, Todos } from "../../types";
 import toggleAll from "../../store/actions/toggleAll";
+import { auth } from "../../firebase/index";
+import { AuthContext } from "../Auth/index";
+import Button from "../Button/index";
 
 interface Props {
-  fetchTodos(): void;
+  fetchTodos(userId: string): void;
   toggleAll(activeTodoCount: number): void;
   todos: Todos;
 }
 
-const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
+const Main: React.FC<any> = ({ todos, fetchTodos, toggleAll }) => {
+  const user: any = useContext(AuthContext);
   useEffect(() => {
-    fetchTodos();
-  }, []);
+    fetchTodos(user.currentUser.uid);
+  }, [user]);
 
   const activeTodoCount = todos.filter((todo: Todo) => !todo.completed).length;
 
@@ -43,6 +47,7 @@ const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
         </section>
         <Footer activeTodoCount={activeTodoCount} />
       </main>
+      <Button onClick={() => auth.signOut()}>Logout</Button>
     </div>
   );
 };

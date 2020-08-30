@@ -9,6 +9,7 @@ import {
   TOGGLE_ALL,
   CLEAR_COMPLETED,
   CHANGE_TODO,
+  SET_USER_ID,
 } from "../../consts";
 import { State } from "../../types";
 
@@ -19,6 +20,7 @@ const initState: State = {
     active: false,
     completed: false,
   },
+  userId: null,
 };
 
 export default function rootReducer(state = initState, action: any) {
@@ -90,6 +92,13 @@ export default function rootReducer(state = initState, action: any) {
             ? action.payload.todo
             : todo;
         }),
+      };
+
+    case SET_USER_ID:
+      console.log(action.payload.userId);
+      return {
+        ...state,
+        userId: action.payload.userId,
       };
 
     default:

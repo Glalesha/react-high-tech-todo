@@ -3,6 +3,7 @@ import {
   ActionWithId,
   ActionWithTodo,
   ActionWithActiveTodoCount,
+  ActionWithUserId,
 } from "../types";
 import {
   getTodosDB,
@@ -40,11 +41,14 @@ function* fetchTodos() {
   yield takeEvery(FETCH_TODOS, fetchTodosAsync);
 }
 
-function* fetchTodosAsync() {
+function* fetchTodosAsync(action: ActionWithUserId) {
   try {
-    const todos = yield call(() => getTodosDB());
+    console.log(action.payload.userId, 123432);
+    const todos = yield call(() => getTodosDB(action.payload.userId));
     yield put({ type: GET_TODOS, payload: { todos } });
-  } catch {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* toggleCompleted() {

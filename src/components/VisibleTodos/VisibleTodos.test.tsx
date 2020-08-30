@@ -13,7 +13,7 @@ describe("VisibleTodos", () => {
       todos: mockTodos,
       filters,
     };
-    const store = createStore(rootReducer, initState);
+    const store = createStore(rootReducer, initState as any);
     const wrapper = mount(
       <Provider store={store}>
         <VisibleTodos todos={initState.todos} />

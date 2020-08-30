@@ -1,8 +1,12 @@
 import { db } from "../firebase";
 import { Todo } from "../types/index";
 
-export const getTodosDB = async () => {
-  const snapshot = await db.collection("Todos").get();
+export const getTodosDB = async (userId: string) => {
+  console.log(123423412);
+  const snapshot = await db
+    .collection("Todos")
+    .where("userId", "==", userId)
+    .get();
   return snapshot.docs.map((item: { data(): void | object }) => {
     return item.data();
   });

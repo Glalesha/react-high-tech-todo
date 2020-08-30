@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { AuthContext } from "../Auth/index";
 import { Todos } from "../../types";
 import addTodo from "../../store/actions/addTodo";
 import { getNewId } from "../../utils/utils";
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ addTodo, todos }) => {
+  const user: any = useContext(AuthContext);
   const [todoValue, setTodoValue]: [string, any] = useState("");
 
   const handleKeyPress = (e: any) => {
@@ -19,6 +20,7 @@ const Header: React.FC<Props> = ({ addTodo, todos }) => {
         title: todoValue,
         completed: false,
         id: getNewId(todos),
+        userId: user.currentUser.uid,
       };
 
       addTodo(newTodo);

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { auth } from "../../firebase/index";
 import Filters from "../Filters/index";
 import clearCompleted from "../../store/actions/clearCompleted";
 

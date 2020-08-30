@@ -2,6 +2,7 @@ export type Todo = {
   title: string;
   completed: boolean;
   id: number;
+  userId: string;
 };
 export type Todos = Array<Todo>;
 
@@ -14,6 +15,7 @@ export interface Filters {
 export interface State {
   todos: Todos;
   filters: Filters;
+  userId: string | null;
 }
 
 export interface ActionWithTodo {
@@ -35,6 +37,14 @@ export interface ActionWithId {
 export interface ActionWithActiveTodoCount {
   payload: {
     activeTodoCount: number;
+  };
+
+  type: string;
+}
+
+export interface ActionWithUserId {
+  payload: {
+    userId: string;
   };
 
   type: string;

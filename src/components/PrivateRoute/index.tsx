@@ -7,6 +7,7 @@ const PrivateRouter: React.FC<any> = ({
   ...rest
 }) => {
   const { currentUser }: any = useContext(AuthContext);
+  console.log(currentUser);
 
   return (
     <Route
