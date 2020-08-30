@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const ButtonComponent: React.FC<any> = ({ children }) => {
+const ButtonComponent: React.FC<any> = ({ children, type }) => {
   return (
-    <Button>
+    <Button type={type}>
       <ButtonText>{children}</ButtonText>
     </Button>
   );
