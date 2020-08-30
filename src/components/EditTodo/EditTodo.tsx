@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Todo } from "../../types/index";
 import changeTodo from "../../store/actions/changeTodo";
@@ -19,12 +18,10 @@ const EditTodo: React.FC<Props> = ({ resetLiClassName, todo, changeTodo }) => {
 
   const handleChange = (e: any) => {
     setTodoValue(e.target.value);
-    console.log(todoValue);
   };
 
   const handleKeyPress = (e: any) => {
     if (e.key === "Enter") {
-      console.log(todoValue);
       onBlur();
     }
   };

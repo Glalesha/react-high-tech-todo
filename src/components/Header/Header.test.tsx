@@ -1,17 +1,25 @@
 import React from "react";
 import { mount, ShallowWrapper } from "enzyme";
-import Header from "./index";
+import Header from "./Header";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../../store/reducers/rootReducer";
 import mockTodos from "../../mockData";
+import { AuthContext } from "../Auth/Auth";
 
 describe("Header", () => {
   test("On press 'enter' add todo", () => {
+    const user = {
+      currentUser: {
+        uid: "123",
+      },
+    };
     const store = createStore(rootReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <Header todos={mockTodos} />
+        <AuthContext.Provider value={user as any}>
+          <Header todos={mockTodos} />
+        </AuthContext.Provider>
       </Provider>
     );
 

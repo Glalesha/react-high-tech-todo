@@ -1,6 +1,6 @@
 import React from "react";
 import { Todos } from "../../types";
-import Todo from "../Todo/index";
+import Todo from "../Todo/Todo";
 import { connect } from "react-redux";
 
 interface Props {

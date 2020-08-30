@@ -1,11 +1,14 @@
 import React, { useState, useCallback } from "react";
+import { History } from "history";
 import { auth } from "../../firebase/index";
-import { connect } from "react-redux";
-import setUserId from "../../store/actions/setUserId";
 import styled from "styled-components";
-import Button from "../Button/index";
+import Button from "../Button/Button";
 
-const LoginPage: React.FC<any> = ({ history, setUserId }) => {
+interface Props {
+  history: History;
+}
+
+const SignPage: React.FC<Props> = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitValue, setSubmitValue] = useState("");
@@ -13,18 +16,13 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
   const handleSubmit = useCallback(
     async (e: any) => {
       e.preventDefault();
-      console.log(submitValue);
 
       try {
-        let authData;
         if (submitValue === "login") {
-          authData = await auth.signInWithEmailAndPassword(email, password);
+          await auth.signInWithEmailAndPassword(email, password);
         } else {
-          console.log(13);
-          authData = await auth.createUserWithEmailAndPassword(email, password);
+          await auth.createUserWithEmailAndPassword(email, password);
         }
-        const userId = authData?.user?.uid!;
-        setUserId(userId);
         history.push("/");
       } catch (error) {
         console.log(error);
@@ -42,6 +40,7 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
             type="email"
             id="email"
             placeholder="Email"
+            required
             onChange={(e: any) => setEmail(e.target.value)}
             value={email}
           ></CredentialInput>
@@ -52,6 +51,7 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
             type="password"
             id="password"
             placeholder="Password"
+            required
             onChange={(e: any) => setPassword(e.target.value)}
             value={password}
           ></CredentialInput>
@@ -63,6 +63,7 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
               name="submitType"
               type="radio"
               value="login"
+              required
               checked={submitValue === "login" ? true : false}
               onChange={(e: any) => setSubmitValue(e.target.value)}
             ></RadioInput>
@@ -74,6 +75,7 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
               name="submitType"
               type="radio"
               value="signup"
+              required
               checked={submitValue === "signup" ? true : false}
               onChange={(e: any) => setSubmitValue(e.target.value)}
             ></RadioInput>
@@ -86,7 +88,7 @@ const LoginPage: React.FC<any> = ({ history, setUserId }) => {
   );
 };
 
-export default connect(null, { setUserId })(LoginPage);
+export default SignPage;
 
 const Form = styled.form`
   margin-top: 100px;

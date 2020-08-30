@@ -43,7 +43,6 @@ function* fetchTodos() {
 
 function* fetchTodosAsync(action: ActionWithUserId) {
   try {
-    console.log(action.payload.userId, 123432);
     const todos = yield call(() => getTodosDB(action.payload.userId));
     yield put({ type: GET_TODOS, payload: { todos } });
   } catch (error) {

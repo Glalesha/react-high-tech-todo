@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../../store/reducers/rootReducer";
-import Todo from "./index";
+import Todo from "./Todo";
 import mockTodos from "../../mockData";
 import { Todo as TodoType, Todos } from "../../types/index";
 

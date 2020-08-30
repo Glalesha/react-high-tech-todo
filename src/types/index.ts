@@ -15,7 +15,22 @@ export interface Filters {
 export interface State {
   todos: Todos;
   filters: Filters;
-  userId: string | null;
+}
+
+export interface UserFound {
+  currentUser: {
+    uid: string;
+  };
+}
+
+export interface User {
+  currentUser: {
+    uid: string;
+  };
+}
+
+export interface UserNotFount {
+  currentUser: null;
 }
 
 export interface ActionWithTodo {

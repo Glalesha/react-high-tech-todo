@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import Filters from "./index";
+import Filters from "./Filters";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../../store/reducers/rootReducer";

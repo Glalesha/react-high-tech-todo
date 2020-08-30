@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../../store/reducers/rootReducer";
 import mockTodos from "../../mockData";
-import Todo from "../Todo/index";
+import Todo from "../Todo/Todo";
 
 describe("VisibleTodos", () => {
   const setup = (filters: any) => {

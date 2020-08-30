@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, ComponentType } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { AuthContext } from "../Auth";
+import { AuthContext } from "../Auth/Auth";
 
-const PrivateRouter: React.FC<any> = ({
+interface Props {
+  component: ComponentType<any>;
+  [propName: string]: any;
+}
+
+const PrivateRouter: React.FC<Props> = ({
   component: RouteComponent,
   ...rest
 }) => {
   const { currentUser }: any = useContext(AuthContext);
-  console.log(currentUser);
 
   return (
     <Route
@@ -23,4 +27,4 @@ const PrivateRouter: React.FC<any> = ({
   );
 };
 
-export default PrivateRouter;
+export default PrivateRouter as any;

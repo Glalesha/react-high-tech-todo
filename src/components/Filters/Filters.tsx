@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import setFilter from "../../store/actions/setFilter";
 
 interface Props {

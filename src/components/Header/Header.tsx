@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
-import { AuthContext } from "../Auth/index";
-import { Todos } from "../../types";
+import { AuthContext } from "../Auth/Auth";
+import { Todos, Todo } from "../../types";
 import addTodo from "../../store/actions/addTodo";
 import { getNewId } from "../../utils/utils";
 
 interface Props {
-  addTodo: any;
+  addTodo(todo: Todo): void;
   todos: Todos;
 }
 

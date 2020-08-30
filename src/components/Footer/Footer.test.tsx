@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import Footer from "./index";
+import Footer from "./Footer";
 import rootReducer from "../../store/reducers/rootReducer";
 import mockTodos from "../../mockData";
 

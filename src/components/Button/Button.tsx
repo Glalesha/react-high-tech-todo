@@ -1,9 +1,20 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
-const ButtonComponent: React.FC<any> = ({ children, type }) => {
+interface Props {
+  children?: ReactNode;
+  type?: "submit" | "button" | "reset";
+  onChildClick?(...args: any): any;
+}
+
+const ButtonComponent: React.FC<Props> = ({ children, type, onChildClick }) => {
+  const handleClick = () => {
+    if (onChildClick) {
+      onChildClick();
+    }
+  };
   return (
-    <Button type={type}>
+    <Button type={type ? type : "button"} onClick={handleClick}>
       <ButtonText>{children}</ButtonText>
     </Button>
   );

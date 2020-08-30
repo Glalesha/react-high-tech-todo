@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Todo as TodoType } from "../../types";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import classNames from "classnames";
-import EditTodo from "../EditTodo/index";
+import EditTodo from "../EditTodo/EditTodo";
 import toggleCompleted from "../../store/actions/toggleCompleted";
 import deleteTodo from "../../store/actions/deleteTodo";
 
