@@ -17,6 +17,10 @@ export interface State {
   filters: Filters;
 }
 
+export interface Error {
+  code: string;
+}
+
 export interface UserFound {
   currentUser: {
     uid: string;

@@ -3,6 +3,8 @@ import { History } from "history";
 import { auth } from "../../firebase/index";
 import styled from "styled-components";
 import Button from "../Button/Button";
+import ErrorsList from "../ErrorsList/ErrorsList";
+import { getErrorsText } from "../../utils/utils";
 
 interface Props {
   history: History;
@@ -12,20 +14,26 @@ const SignPage: React.FC<Props> = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitValue, setSubmitValue] = useState("");
+  const [errors, setErrors]: any = useState([]);
 
   const handleSubmit = useCallback(
     async (e: any) => {
       e.preventDefault();
 
-      try {
-        if (submitValue === "login") {
-          await auth.signInWithEmailAndPassword(email, password);
-        } else {
-          await auth.createUserWithEmailAndPassword(email, password);
+      if (!submitValue) {
+        console.log(1234);
+        setErrors([...errors, { code: "submit-type-not-choosed" }]);
+      } else {
+        try {
+          if (submitValue === "login") {
+            await auth.signInWithEmailAndPassword(email, password);
+          } else {
+            await auth.createUserWithEmailAndPassword(email, password);
+          }
+          history.push("/");
+        } catch (error) {
+          setErrors([...errors, error]);
         }
-        history.push("/");
-      } catch (error) {
-        console.log(error);
       }
     },
     [history, email, password, submitValue]
@@ -63,11 +71,12 @@ const SignPage: React.FC<Props> = ({ history }) => {
               name="submitType"
               type="radio"
               value="login"
-              required
               checked={submitValue === "login" ? true : false}
               onChange={(e: any) => setSubmitValue(e.target.value)}
             ></RadioInput>
-            <RadioLabel htmlFor="login">Log in</RadioLabel>
+            <RadioLabel htmlFor="login" tabIndex={0}>
+              Log in
+            </RadioLabel>
           </InputBlock>
           <InputBlock>
             <RadioInput
@@ -75,20 +84,22 @@ const SignPage: React.FC<Props> = ({ history }) => {
               name="submitType"
               type="radio"
               value="signup"
-              required
               checked={submitValue === "signup" ? true : false}
               onChange={(e: any) => setSubmitValue(e.target.value)}
             ></RadioInput>
-            <RadioLabel htmlFor="signup">Sign up</RadioLabel>
+            <RadioLabel htmlFor="signup" tabIndex={0}>
+              Sign up
+            </RadioLabel>
           </InputBlock>
         </RadioWrapper>
         <Button type="submit">Submit</Button>
       </Form>
+      <ErrorsList errorsMessages={getErrorsText(errors)} />
     </div>
   );
 };
 
-export default SignPage;
+export default React.memo(SignPage);
 
 const Form = styled.form`
   margin-top: 100px;
@@ -125,7 +136,7 @@ const RadioInput = styled.input`
 
   &:checked + label {
     &:before {
-      background-color: blue;
+      background-color: rgba(44, 130, 201, 1);
     }
   }
 `;
@@ -145,5 +156,24 @@ const RadioLabel = styled.label`
     height: 20px;
     background-color: #fcfcfc;
     border: 1px solid grey;
+  }
+
+  &:hover {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(44, 130, 201, 0.5);
+      border: 1px solid grey;
+    }
+  }
+
+  &:focus {
+    &:before {
+      border: 1px solid rgba(44, 130, 201, 1);
+    }
   }
 `;
