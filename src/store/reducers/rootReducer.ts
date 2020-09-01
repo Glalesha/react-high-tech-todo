@@ -8,6 +8,8 @@ import {
   TOGGLE_ALL,
   CLEAR_COMPLETED,
   CHANGE_TODO,
+  CLEAR_ERRORS,
+  ADD_ERROR,
 } from "../../consts";
 import { State } from "../../types";
 
@@ -18,6 +20,7 @@ const initState: State = {
     active: false,
     completed: false,
   },
+  errors: [],
 };
 
 export default function rootReducer(state = initState, action: any) {
@@ -89,6 +92,18 @@ export default function rootReducer(state = initState, action: any) {
             ? action.payload.todo
             : todo;
         }),
+      };
+
+    case ADD_ERROR:
+      return {
+        ...state,
+        errors: [...state.errors, action.payload.error],
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        errors: [],
       };
 
     default:

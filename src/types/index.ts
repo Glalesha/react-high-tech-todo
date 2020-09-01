@@ -15,6 +15,7 @@ export interface Filters {
 export interface State {
   todos: Todos;
   filters: Filters;
+  errors: Error[];
 }
 
 export interface Error {

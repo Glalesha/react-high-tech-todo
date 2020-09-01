@@ -5,24 +5,34 @@ import styled from "styled-components";
 import Button from "../Button/Button";
 import ErrorsList from "../ErrorsList/ErrorsList";
 import { getErrorsText } from "../../utils/utils";
+import addError from "../../store/actions/addError";
+import clearErrors from "../../store/actions/clearErrors";
+import { connect } from "react-redux";
+import { Error as ErrorType } from "../../types/index";
 
 interface Props {
   history: History;
+  errors: ErrorType[];
+  addError(error: ErrorType): void;
+  clearErrors(): void;
 }
 
-const SignPage: React.FC<Props> = ({ history }) => {
+const SignPage: React.FC<Props> = ({
+  history,
+  errors,
+  addError,
+  clearErrors,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitValue, setSubmitValue] = useState("");
-  const [errors, setErrors]: any = useState([]);
 
   const handleSubmit = useCallback(
     async (e: any) => {
       e.preventDefault();
 
       if (!submitValue) {
-        console.log(1234);
-        setErrors([...errors, { code: "submit-type-not-choosed" }]);
+        addError({ code: "submit-type-not-choosed" });
       } else {
         try {
           if (submitValue === "login") {
@@ -31,8 +41,15 @@ const SignPage: React.FC<Props> = ({ history }) => {
             await auth.createUserWithEmailAndPassword(email, password);
           }
           history.push("/");
+          clearErrors();
         } catch (error) {
-          setErrors([...errors, error]);
+          addError(error);
+          console.log(error);
+          setEmail("");
+          setPassword("");
+          setTimeout(() => {
+            clearErrors();
+          }, 3000);
         }
       }
     },
@@ -92,14 +109,25 @@ const SignPage: React.FC<Props> = ({ history }) => {
             </RadioLabel>
           </InputBlock>
         </RadioWrapper>
-        <Button type="submit">Submit</Button>
+        <ButtonWrapper>
+          <Button type="submit">Submit</Button>
+        </ButtonWrapper>
       </Form>
-      <ErrorsList errorsMessages={getErrorsText(errors)} />
+      {errors.length ? (
+        <ErrorsList errorsMessages={getErrorsText(errors)} />
+      ) : null}
     </div>
   );
 };
 
-export default React.memo(SignPage);
+export default connect(
+  (state: any) => {
+    return {
+      errors: state.errors,
+    };
+  },
+  { addError, clearErrors }
+)(SignPage as any);
 
 const Form = styled.form`
   margin-top: 100px;
@@ -176,4 +204,9 @@ const RadioLabel = styled.label`
       border: 1px solid rgba(44, 130, 201, 1);
     }
   }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;

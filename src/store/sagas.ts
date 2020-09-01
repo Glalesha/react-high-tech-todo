@@ -23,6 +23,7 @@ import {
   TOGGLE_ALL,
   CLEAR_COMPLETED,
   CHANGE_TODO,
+  ADD_ERROR,
 } from "../consts";
 
 export default function* rootSaga() {
@@ -46,7 +47,10 @@ function* fetchTodosAsync(action: ActionWithUserId) {
     const todos = yield call(() => getTodosDB(action.payload.userId));
     yield put({ type: GET_TODOS, payload: { todos } });
   } catch (error) {
-    console.log(error);
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "fetch todo error" } },
+    });
   }
 }
 
@@ -57,7 +61,12 @@ function* toggleCompleted() {
 function* toggleCompletedAsync(action: ActionWithTodo) {
   try {
     yield call(() => toggleCompletedDB(action.payload.todo));
-  } catch {}
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "toggle todo error" } },
+    });
+  }
 }
 
 function* addTodo() {
@@ -67,7 +76,12 @@ function* addTodo() {
 function* addTodoAsync(action: ActionWithTodo) {
   try {
     yield call(() => addTodoDB(action.payload.todo));
-  } catch {}
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "add todo error" } },
+    });
+  }
 }
 
 function* deleteTodo() {
@@ -77,7 +91,12 @@ function* deleteTodo() {
 function* deleteTodoAsync(action: ActionWithId) {
   try {
     yield call(() => deleteTodoDB(action.payload.id));
-  } catch {}
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "delete todo error" } },
+    });
+  }
 }
 
 function* toggleAll() {
@@ -85,7 +104,14 @@ function* toggleAll() {
 }
 
 function* toggleAllAsync(action: ActionWithActiveTodoCount) {
-  yield call(() => toggleAllDB(action.payload.activeTodoCount));
+  try {
+    yield call(() => toggleAllDB(action.payload.activeTodoCount));
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "toggle all todos error" } },
+    });
+  }
 }
 
 function* clearCompleted() {
@@ -93,7 +119,14 @@ function* clearCompleted() {
 }
 
 function* clearCompletedAsync() {
-  yield call(() => clearCompletedDB());
+  try {
+    yield call(() => clearCompletedDB());
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "clear completed error" } },
+    });
+  }
 }
 
 function* changeTodo() {
@@ -101,5 +134,12 @@ function* changeTodo() {
 }
 
 function* changeTodoAsync(action: ActionWithTodo) {
-  yield call(() => changeTodoDB(action.payload.todo));
+  try {
+    yield call(() => changeTodoDB(action.payload.todo));
+  } catch {
+    yield put({
+      type: ADD_ERROR,
+      payload: { error: { code: "change todo error" } },
+    });
+  }
 }

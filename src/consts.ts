@@ -12,6 +12,8 @@ export const TOGGLE_ALL = "TOGGLE_ALL";
 export const CLEAR_COMPLETED = "CLEAR_COMPLETED";
 export const CHANGE_TODO = "CHANGE_TODO";
 export const SET_USER_ID = "SET_USER_ID";
+export const ADD_ERROR = "ADD_ERROR";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 export const USER_NOT_FOUND = "User not found. Try another email or password";
 export const EMAIL_ALREADY_EXIST = "This Email already exists";

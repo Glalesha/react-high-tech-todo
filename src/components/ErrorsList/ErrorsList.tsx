@@ -1,25 +1,36 @@
 import React from "react";
 import styled from "styled-components";
+import Button from "../Button/Button";
+import { connect } from "react-redux";
+import clearErrors from "../../store/actions/clearErrors";
 
 interface Props {
   errorsMessages: string[];
+  clearErrors(): void;
 }
 
-const ErrorsList: React.FC<Props> = ({ errorsMessages }) => {
+const ErrorsList: React.FC<Props> = ({ errorsMessages, clearErrors }) => {
   return (
-    <ErrorsUl>
-      {errorsMessages.map((errorMessage: string) => {
-        return (
-          <ErrorLi>
-            <Error>{errorMessage}</Error>
-          </ErrorLi>
-        );
-      })}
-    </ErrorsUl>
+    <React.Fragment>
+      <ErrorsUl>
+        {errorsMessages.map((errorMessage: string, index: number) => {
+          return (
+            <ErrorLi key={index}>
+              <Error data-test="error-message">{errorMessage}</Error>
+            </ErrorLi>
+          );
+        })}
+      </ErrorsUl>
+      <ButtonWrapper>
+        <Button onChildClick={() => clearErrors()} size="small">
+          Clear errors
+        </Button>
+      </ButtonWrapper>
+    </React.Fragment>
   );
 };
 
-export default ErrorsList;
+export default connect(null, { clearErrors })(ErrorsList);
 
 const ErrorsUl = styled.ul`
   display: flex;
@@ -31,6 +42,9 @@ const ErrorsUl = styled.ul`
 `;
 
 const ErrorLi = styled.li`
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-bottom: 10px;
   padding: 0;
   list-style: none;
@@ -38,5 +52,11 @@ const ErrorLi = styled.li`
 
 const Error = styled.p`
   margin: 0;
+  margin-right: 10px;
   color: red;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;

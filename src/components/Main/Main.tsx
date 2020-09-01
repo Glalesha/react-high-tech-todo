@@ -4,19 +4,22 @@ import fetchTodos from "../../store/actions/fetchTodos";
 import VisibleTodos from "../VisibleTodos/index";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { Todo, Todos, User } from "../../types";
+import { Todo, Todos, User, Error } from "../../types";
 import toggleAll from "../../store/actions/toggleAll";
 import { auth } from "../../firebase/index";
 import { AuthContext } from "../Auth/Auth";
 import Button from "../Button/Button";
+import ErrorsList from "../ErrorsList/ErrorsList";
+import styled from "styled-components";
 
 interface Props {
   fetchTodos(userId: string): void;
   toggleAll(activeTodoCount: number): void;
   todos: Todos;
+  errors: Error[];
 }
 
-const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
+const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll, errors }) => {
   const user: User = useContext(AuthContext as any);
   useEffect(() => {
     fetchTodos(user.currentUser.uid);
@@ -51,7 +54,12 @@ const Main: React.FC<Props> = ({ todos, fetchTodos, toggleAll }) => {
         </section>
         <Footer activeTodoCount={activeTodoCount} />
       </main>
-      <Button onChildClick={logOut}>Log out</Button>
+      <ButtonWrapper>
+        <Button onChildClick={logOut}>Log out</Button>
+      </ButtonWrapper>
+      {errors.length ? (
+        <ErrorsList errorsMessages={errors.map((error) => error.code)} />
+      ) : null}
     </div>
   );
 };
@@ -60,7 +68,13 @@ export default connect(
   (state: any) => {
     return {
       todos: state.todos,
+      errors: state.errors,
     };
   },
   { fetchTodos, toggleAll }
 )(Main);
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
