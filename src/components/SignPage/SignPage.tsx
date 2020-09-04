@@ -49,7 +49,7 @@ const SignPage: React.FC<Props> = ({
           setPassword("");
           setTimeout(() => {
             clearErrors();
-          }, 3000);
+          }, 6000);
         }
       }
     },
@@ -146,6 +146,7 @@ const CredentialLabel = styled.label`
 
 const CredentialInput = styled.input`
   display: block;
+  box-sizing: border-box;
   width: 100%;
   height: 40px;
   padding: 0 20px;

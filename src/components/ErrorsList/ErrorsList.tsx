@@ -22,7 +22,11 @@ const ErrorsList: React.FC<Props> = ({ errorsMessages, clearErrors }) => {
         })}
       </ErrorsUl>
       <ButtonWrapper>
-        <Button onChildClick={() => clearErrors()} size="small">
+        <Button
+          onChildClick={() => clearErrors()}
+          size="small"
+          data-test="clear-errors"
+        >
           Clear errors
         </Button>
       </ButtonWrapper>

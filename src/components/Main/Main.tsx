@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import fetchTodos from "../../store/actions/fetchTodos";
-import VisibleTodos from "../VisibleTodos/index";
+import VisibleTodos from "../VisibleTodos/VisibleTodos";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { Todo, Todos, User, Error } from "../../types";

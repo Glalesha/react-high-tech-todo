@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import VisibleTodos from "./index";
+import VisibleTodos from "./VisibleTodos";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "../../store/reducers/rootReducer";

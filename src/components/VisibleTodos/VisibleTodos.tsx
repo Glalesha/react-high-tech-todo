@@ -1,11 +1,11 @@
 import React from "react";
-import { Todos } from "../../types";
+import { Todos, Filters } from "../../types";
 import Todo from "../Todo/Todo";
 import { connect } from "react-redux";
 
 interface Props {
   todos: Todos;
-  filters: any;
+  filters: Filters;
 }
 
 const VisibleTodos: React.FC<Props> = ({ todos, filters }) => {
